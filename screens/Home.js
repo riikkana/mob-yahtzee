@@ -31,15 +31,13 @@ export default Home = ({ navigation }) => {
             <MaterialCommunityIcons 
                 name="information"
                 size={90}
-                color="steelblue"
+                color="blue"
             />
             {!hasPlayername ? 
             <>
                 <Text>Enter your name for scoreboard</Text>
                 <TextInput onChangeText={setPlayerName} autoFocus={true} />
-                <Pressable
-                    onPress={() => handlePlayerName(playerName)}
-                >
+                <Pressable onPress={() => handlePlayerName(playerName)}>
                     <Text>OK</Text>
                 </Pressable>
             </>
