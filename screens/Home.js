@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View, TextInput, Pressable, Keyboard } from "react-native";
+import { Text, View, TextInput, Pressable, Keyboard, SafeAreaView } from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Header from "./Header";
 import Footer from "./Footer";
@@ -12,7 +12,8 @@ import {
     BONUS_POINTS_LIMIT } from "../constants/Game";
 import styles from '../style/style';
 
-export default Home = ({ navigation }) => {
+
+const Home = ({ navigation }) => {
 
     const [playerName, setPlayerName] = useState('');
     const [hasPlayername, setHasPlayerName] = useState(false);
@@ -24,10 +25,10 @@ export default Home = ({ navigation }) => {
         }
     }
 
-    return(
-      <>
+    return (
+      <SafeAreaView style={{flex:1}}>
         <Header />
-        <View>
+        <View style= {styles.container}>
             <MaterialCommunityIcons 
                 name="information"
                 size={90}
@@ -44,7 +45,7 @@ export default Home = ({ navigation }) => {
             : 
             <>
                 <Text>Rules of the game</Text>
-                <Text multiline="true">
+                <Text>
                 THE GAME: Upper section of the classic Yahtzee
                 dice game. You have {NBR_OF_DICE} dices and
                 for the every dice you have {NBR_OF_THROWS}
@@ -54,13 +55,11 @@ export default Home = ({ navigation }) => {
                 your points from {MIN_SPOT} to {MAX_SPOT}.
                 Game ends when all points have been selected.
                 The order for selecting those is free.
-
                 POINTS: After each turn game calculates the sum
                 for the dices you selected. Only the dices having
                 the same spot count are calculated. Inside the
                 game you can not select same points from
-                {MIN_SPOT} to {MAX_SPOT} again.
-
+                {MIN_SPOT} to {MAX_SPOT} again.Riikka
                 GOAL: To get points as much as possible.
                 {BONUS_POINTS_LIMIT} points is the limit of
                 getting bonus which gives you {BONUS_POINTS}
@@ -68,13 +67,15 @@ export default Home = ({ navigation }) => {
                 </Text>
                 <Text>Good luck, {playerName}!</Text>
                 <Pressable
-                    onPress={() => navigation.navigate('Gameboard')}>
+                    onPress={() => navigation.navigate('Gameboard', {player: playerName})}>
                         <Text>PLAY</Text>
                     </Pressable>
             </>
             }
         </View>
         <Footer />
-      </>
-    )
+      </SafeAreaView>
+    );
 }
+
+export default Home;

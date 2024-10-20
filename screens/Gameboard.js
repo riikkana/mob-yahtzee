@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { Text, View, Pressable } from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View, Pressable, SafeAreaView } from "react-native";
+import { PaperProvider } from "react-native-paper";
+import { Button } from "react-native-paper";
 import Header from "./Header";
 import Footer from "./Footer";
 import styles from '../style/style';
@@ -17,7 +19,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 let board = [];
 
 
-export default Gameboard = () => {
+export default Gameboard = ({ navigation, route }) => {
 
   const [nbrOfThrowsLeft, setNbrOfThrowsLeft] = useState(NBR_OF_THROWS);
   const [status, setStatus] = useState('Throw dice');
@@ -37,6 +39,21 @@ export default Gameboard = () => {
     useState(new Array(MAX_SPOT).fill(0));
 
   const [playerName, setPlayerName] = useState('');
+
+  useEffect(() => {
+    if (playerName === '' && route.params?.player) {
+      setPlayerName(route.params.player);
+    }
+  }, []);
+
+  // useeffect for handling the arriving from another screen
+  // because you need to read the scoreboard in order to update
+  // new points there
+
+  // useeffect for handling the gameflo. In this one teacher has
+  // nbrOfThrowsLeft in the end of the useEffect to fire useEffect
+  // when nbrOfThrowsLeft changes
+
 
   const row = [];
   for (let dice = 0; dice < NBR_OF_DICE; dice++) {
@@ -89,12 +106,12 @@ export default Gameboard = () => {
       return "orange";
     }
     else {
-      return selectedDices[i] ? "black" : "blue";
+      return selectedDices[i] ? "#e4773c" : "#af53bd";
     }
   }
 
   function getDicePointsColor(i) {
-    return selectedDicePoints[i] ? "black" : "blue";
+    return selectedDicePoints[i] ? "#e4773c" : "#af53bd";
   }
 
   const selectDicePoints = (i) => {
@@ -145,26 +162,30 @@ export default Gameboard = () => {
   }
 
   return (
-    <>
-      <Header />
-      <View>
-        <Container>
-          <Row>{row}</Row>
-        </Container>
-        <Text>Throws left: {nbrOfThrowsLeft}</Text>
-        <Text>{status}</Text>
-        <Pressable
-          onPress={() => throwDices()}>
-          <Text>THROW DICE</Text>
-        </Pressable>
-        <Container>
-          <Row>{pointsRow}</Row>
-        </Container>
-        <Container>
-          <Row>{pointsToSelectRow}</Row>
-        </Container>
-      </View>
-      <Footer />
-    </>
+    <SafeAreaView style={{ flex: 1 }}>
+      <PaperProvider>
+        <Header />
+        <View style={styles.container}>
+          <Container>
+            <Row style={styles.row}>{row}</Row>
+          </Container>
+          <Text style={styles.textStatus}>{status}</Text>
+          <Button 
+              icon="dice-multiple" 
+              mode="contained" 
+              onPress={() => throwDices()}>
+              THROW DICE</Button>
+          <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
+          <Container>
+            <Row style={styles.pointsRow}>{pointsRow}</Row>
+          </Container>
+          <Container>
+            <Row style={styles.row}>{pointsToSelectRow}</Row>
+          </Container>
+          <Text>Player name: {playerName}</Text>
+        </View>
+        <Footer />
+      </PaperProvider>
+    </SafeAreaView>
   )
 }

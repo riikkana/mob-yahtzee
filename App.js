@@ -1,3 +1,4 @@
+import { SafeAreaView } from 'react-native';
 import Home from './screens/Home';
 import Gameboard from './screens/Gameboard';
 import Scoreboard from './screens/Scoreboard';
@@ -33,14 +34,16 @@ export default App = () => {
             return <MaterialCommunityIcons 
               name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'blue',
+          tabBarActiveTintColor: '#73347c',
           tabBarInactiveTintColor: 'gray',
         })}
       >
         <Tab.Screen name="Home" component={Home} 
-          options={{tabBarStyle: {display: 'none'}}} />
-        <Tab.Screen name="Gameboard" component={Gameboard} />
-        <Tab.Screen name="Scoreboard" component={Scoreboard} />
+          options={{tabBarStyle: {display: 'none'}, headerShown: false}} />
+        <Tab.Screen name="Gameboard" component={Gameboard}
+          options={{headerShown: false}} />
+        <Tab.Screen name="Scoreboard" component={Scoreboard}
+          options={{headerShown: false}} />
       </Tab.Navigator>
     </NavigationContainer>
   );

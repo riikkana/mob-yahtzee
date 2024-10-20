@@ -2,19 +2,25 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   header: {
-    marginTop: 30,
+    paddingTop: 40,
     marginBottom: 15,
-    backgroundColor: 'blue',
+    backgroundColor: '#af53bd',
     flexDirection: 'row',
+    justifyContent: 'center', 
+    alignItems: 'center', 
   },
   footer: {
-    marginTop: 20,
-    backgroundColor: 'blue',
-    flexDirection: 'row'
+    margin: 20,
+    backgroundColor: '#af53bd',
+    flexDirection: 'row',
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
   title: {
     color: '#fff',
@@ -45,24 +51,35 @@ export default StyleSheet.create({
     marginTop: 10
   },
   row: {
-    marginTop: 20,
+    marginTop: 0,
     padding: 10
+  },
+
+  pointsRow: {
+    fontWeight: 'bold',
+    paddingTop: 20,
   },
   flex: {
     flexDirection: "row"
   },
+  
+  textStatus: {
+    padding: 10,
+    margin: 10
+  },
+
   button: {
     margin: 30,
     flexDirection: "row",
     padding: 10,
-    backgroundColor: "#73CED6",
+    backgroundColor: "#73347c",
     width: 150,
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttonText: {
-    color:"#2B2B52",
+    color:"#cbcbf3",
     fontSize: 20
   }
 });
