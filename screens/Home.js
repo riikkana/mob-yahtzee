@@ -25,6 +25,10 @@ const Home = ({ navigation }) => {
         }
     }
 
+    // buttons, icons, text styling
+
+
+
     return (
       <SafeAreaView style={{flex:1}}>
         <Header />

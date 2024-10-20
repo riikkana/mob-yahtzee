@@ -5,6 +5,8 @@ import { Button } from "react-native-paper";
 import Header from "./Header";
 import Footer from "./Footer";
 import styles from '../style/style';
+import { Container, Row, Col } from "react-native-flex-grid";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {
   NBR_OF_DICE,
   NBR_OF_THROWS,
@@ -13,17 +15,17 @@ import {
   BONUS_POINTS,
   BONUS_POINTS_LIMIT
 } from "../constants/Game";
-import { Container, Row, Col } from "react-native-flex-grid";
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
+const MAX_ROUNDS = 6;
 let board = [];
 
 
 export default Gameboard = ({ navigation, route }) => {
-
+  const [currentRound, setCurrentRound] = useState(1);
   const [nbrOfThrowsLeft, setNbrOfThrowsLeft] = useState(NBR_OF_THROWS);
   const [status, setStatus] = useState('Throw dice');
   const [gameEndStatus, setGameEndStatus] = useState(false);
+  const [isPointsSelected, setIsPointsSelected] = useState(false);
 
   // if dice are selected or not
   const [selectedDices, setSelectedDices] =
@@ -116,7 +118,6 @@ export default Gameboard = ({ navigation, route }) => {
 
   const selectDicePoints = (i) => {
     if (nbrOfThrowsLeft === 0) {
-      let selected = [...selectedDices];
       let selectedPoints = [...selectedDicePoints];
       let points = [...dicePointsTotal];
       if (!selectedPoints[i]) {
@@ -126,10 +127,17 @@ export default Gameboard = ({ navigation, route }) => {
         points[i] = nbrOfDice * (i + 1);
         setDicePointsTotal(points);
         setSelectedDicePoints(selectedPoints);
+        setIsPointsSelected(true);
         setNbrOfThrowsLeft(NBR_OF_THROWS);
-        return points[i];
-      }
-      else {
+        if (currentRound < MAX_ROUNDS) {
+          setCurrentRound(prev => prev + 1);
+        } else {
+          // Pelin loppu ja tallennetaan pisteet scoreboardille
+          handleGameEnd();
+
+          //return points[i];
+        }
+      } else {
         setStatus("You already selected points for " + (i + 1));
       }
     }
@@ -145,47 +153,65 @@ export default Gameboard = ({ navigation, route }) => {
   }
 
   const throwDices = () => {
-    let spots = [...diceSpots];
-    for (let i = 0; i < NBR_OF_DICE; i++) {
-      if (!selectedDices[i]) {
-        let randomNumber = Math.floor(Math.random() * MAX_SPOT + 1);
-        spots[i] = randomNumber;
-        board[i] = 'dice-' + randomNumber;
+    if (nbrOfThrowsLeft > 0 && !isPointsSelected) {
+      let spots = [...diceSpots];
+      for (let i = 0; i < NBR_OF_DICE; i++) {
+        if (!selectedDices[i]) {
+          let randomNumber = Math.floor(Math.random() * MAX_SPOT + 1);
+          spots[i] = randomNumber;
+          board[i] = 'dice-' + randomNumber;
+        }
       }
+      setDiceSpots(spots);
+      setNbrOfThrowsLeft(prev => prev - 1);
+      if (nbrOfThrowsLeft === 1) {
+        setIsPointsSelected(false); // Estä seuraava heitto, kun pisteet on valittava
+      }
+    } else {
+      setStatus("No throws left! Select points to continue.");
     }
-    setDiceSpots(spots);
-    setNbrOfThrowsLeft(prev => prev - 1);
   }
 
-  function getSpotTotal(i) {
-    return dicePointsTotal[i];
-  }
+    function getSpotTotal(i) {
+      return dicePointsTotal[i];
+    }
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <PaperProvider>
-        <Header />
-        <View style={styles.container}>
-          <Container>
-            <Row style={styles.row}>{row}</Row>
-          </Container>
-          <Text style={styles.textStatus}>{status}</Text>
-          <Button 
-              icon="dice-multiple" 
-              mode="contained" 
+    const calculateTotalScore = () => {
+      return dicePointsTotal.reduce((acc, score) => acc + score, 0);
+    };
+
+    const handleGameEnd = () => {
+      setGameEndStatus(true);
+      //  scoreboardille tallentamiseksi
+    }
+
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
+        <PaperProvider>
+          <Header />
+          <View style={styles.container}>
+            <Container>
+              <Row style={styles.row}>{row}</Row>
+            </Container>
+            <Text style={styles.textStatus}>{status}</Text>
+            <Button
+              icon="dice-multiple"
+              mode="contained"
               onPress={() => throwDices()}>
               THROW DICE</Button>
-          <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
-          <Container>
-            <Row style={styles.pointsRow}>{pointsRow}</Row>
-          </Container>
-          <Container>
-            <Row style={styles.row}>{pointsToSelectRow}</Row>
-          </Container>
-          <Text>Player name: {playerName}</Text>
-        </View>
-        <Footer />
-      </PaperProvider>
-    </SafeAreaView>
-  )
-}
+            <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
+            <Container>
+              <Row style={styles.pointsRow}>{pointsRow}</Row>
+            </Container>
+            <Container>
+              <Row style={styles.row}>{pointsToSelectRow}</Row>
+            </Container>
+            <Text>Total points: {calculateTotalScore()}</Text>
+            <Text>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
+            <Text>Player name: {playerName}</Text>
+          </View>
+          <Footer />
+        </PaperProvider>
+      </SafeAreaView>
+    )
+  }
