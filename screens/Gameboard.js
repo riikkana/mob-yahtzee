@@ -24,29 +24,22 @@ export default Gameboard = ({ navigation, route }) => {
   const [currentRound, setCurrentRound] = useState(1);
   const [nbrOfThrowsLeft, setNbrOfThrowsLeft] = useState(NBR_OF_THROWS);
   const [status, setStatus] = useState('Throw dice');
-  const [gameEndStatus, setGameEndStatus] = useState(false);
+  //const [gameEndStatus, setGameEndStatus] = useState(false);
   const [isPointsSelected, setIsPointsSelected] = useState(false);
-
-  // if dice are selected or not
-  const [selectedDices, setSelectedDices] =
-    useState(new Array(NBR_OF_DICE).fill(false));
-  // dice spots
-  const [diceSpots, setDiceSpots] =
-    useState(new Array(NBR_OF_DICE).fill(0));
-  // if dice points are selected or not for spots
-  const [selectedDicePoints, setSelectedDicePoints] =
-    useState(new Array(MAX_SPOT).fill(false));
-  // total points for different spots
-  const [dicePointsTotal, setDicePointsTotal] =
-    useState(new Array(MAX_SPOT).fill(0));
-
+  const [gameOver, setGameOver] = useState(false);
+  const [totalScore, setTotalScore] = useState(0);
+  const [isScoreSaved, setIsScoreSaved] = useState(false);
+  const [selectedDices, setSelectedDices] = useState(new Array(NBR_OF_DICE).fill(false));
+  const [diceSpots, setDiceSpots] = useState(new Array(NBR_OF_DICE).fill(0));
+  const [selectedDicePoints, setSelectedDicePoints] = useState(new Array(MAX_SPOT).fill(false));
+  const [dicePointsTotal, setDicePointsTotal] = useState(new Array(MAX_SPOT).fill(0));
   const [playerName, setPlayerName] = useState('');
 
   useEffect(() => {
     if (playerName === '' && route.params?.player) {
       setPlayerName(route.params.player);
     }
-  }, []);
+  }, [route.params?.player]);
 
   // useeffect for handling the arriving from another screen
   // because you need to read the scoreboard in order to update
@@ -108,12 +101,12 @@ export default Gameboard = ({ navigation, route }) => {
       return "orange";
     }
     else {
-      return selectedDices[i] ? "#e4773c" : "#af53bd";
+      return selectedDices[i] ? "#511e74" : "#af53bd";
     }
   }
 
   function getDicePointsColor(i) {
-    return selectedDicePoints[i] ? "#e4773c" : "#af53bd";
+    return selectedDicePoints[i] ? "#511e74" : "#af53bd";
   }
 
   const selectDicePoints = (i) => {
@@ -131,11 +124,13 @@ export default Gameboard = ({ navigation, route }) => {
         setNbrOfThrowsLeft(NBR_OF_THROWS);
         if (currentRound < MAX_ROUNDS) {
           setCurrentRound(prev => prev + 1);
+          setIsPointsSelected(false);
+          setStatus("Throw " + NBR_OF_THROWS + " times before setting points.");
+          setSelectedDices(new Array(NBR_OF_DICE).fill(false));
         } else {
-          // Pelin loppu ja tallennetaan pisteet scoreboardille
-          handleGameEnd();
-
-          //return points[i];
+          const finalTotalScore = points.reduce((acc, score) => acc + score, 0);
+          setTotalScore(finalTotalScore);
+          setGameOver(true); 
         }
       } else {
         setStatus("You already selected points for " + (i + 1));
@@ -165,53 +160,85 @@ export default Gameboard = ({ navigation, route }) => {
       setDiceSpots(spots);
       setNbrOfThrowsLeft(prev => prev - 1);
       if (nbrOfThrowsLeft === 1) {
-        setIsPointsSelected(false); // Estä seuraava heitto, kun pisteet on valittava
+        setIsPointsSelected(false);
       }
     } else {
       setStatus("No throws left! Select points to continue.");
     }
   }
 
-    function getSpotTotal(i) {
-      return dicePointsTotal[i];
-    }
-
-    const calculateTotalScore = () => {
-      return dicePointsTotal.reduce((acc, score) => acc + score, 0);
-    };
-
-    const handleGameEnd = () => {
-      setGameEndStatus(true);
-      //  scoreboardille tallentamiseksi
-    }
-
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <PaperProvider>
-          <Header />
-          <View style={styles.container}>
-            <Container>
-              <Row style={styles.row}>{row}</Row>
-            </Container>
-            <Text style={styles.textStatus}>{status}</Text>
-            <Button
-              icon="dice-multiple"
-              mode="contained"
-              onPress={() => throwDices()}>
-              THROW DICE</Button>
-            <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
-            <Container>
-              <Row style={styles.pointsRow}>{pointsRow}</Row>
-            </Container>
-            <Container>
-              <Row style={styles.row}>{pointsToSelectRow}</Row>
-            </Container>
-            <Text>Total points: {calculateTotalScore()}</Text>
-            <Text>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
-            <Text>Player name: {playerName}</Text>
-          </View>
-          <Footer />
-        </PaperProvider>
-      </SafeAreaView>
-    )
+  function getSpotTotal(i) {
+    return dicePointsTotal[i];
   }
+
+  const calculateTotalScore = () => {
+    return dicePointsTotal.reduce((acc, score) => acc + score, 0);
+  };
+
+  const saveToScoreboard = () => {
+    navigation.navigate('Scoreboard', { score: totalScore, player: playerName });
+    setIsScoreSaved(true);
+  };
+
+  const startNewGame = () => {
+    setCurrentRound(1);
+    setNbrOfThrowsLeft(NBR_OF_THROWS);
+    setStatus('Throw dice');
+    setIsPointsSelected(false);
+    setGameOver(false);
+    setIsScoreSaved(false);
+    setSelectedDices(new Array(NBR_OF_DICE).fill(false));
+    setDiceSpots(new Array(NBR_OF_DICE).fill(0));
+    setSelectedDicePoints(new Array(MAX_SPOT).fill(false));
+    setDicePointsTotal(new Array(MAX_SPOT).fill(0));
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <PaperProvider>
+        <Header />
+        <View style={styles.container}>
+          <Container>
+            <Row style={styles.row}>{row}</Row>
+          </Container>
+          <Text style={styles.textStatus}>{status}</Text>
+          {!gameOver && (
+            <>
+              <Button icon="dice-multiple" mode="contained" onPress={throwDices}>
+                THROW DICE
+              </Button>
+              <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
+            </>
+          )}
+          <Container>
+            <Row style={styles.pointsRow}>{pointsRow}</Row>
+          </Container>
+          <Container>
+            <Row style={styles.row}>{pointsToSelectRow}</Row>
+          </Container>
+          <Text>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
+          <Text>Player name: {playerName}</Text>
+          <Text>Total points: {calculateTotalScore()}</Text>
+          {gameOver && (
+            <>
+              <Text style={styles.textStatus}>Total points: {totalScore}!</Text>
+              {!isScoreSaved ? (
+                <Button icon="content-save" mode="contained" onPress={saveToScoreboard}>
+                  Save to Scoreboard
+                </Button>
+              ) : (
+                <>
+                  <Text style={styles.textStatus}>Score saved!</Text>
+                  <Button icon="restart" mode="contained" onPress={startNewGame}>
+                    Start New Game
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+        </View>
+        <Footer />
+      </PaperProvider>
+    </SafeAreaView>
+  )
+}
