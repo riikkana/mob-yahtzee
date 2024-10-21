@@ -34,7 +34,7 @@ export default App = () => {
             return <MaterialCommunityIcons 
               name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#73347c',
+          tabBarActiveTintColor: '#511e74',
           tabBarInactiveTintColor: 'gray',
         })}
       >

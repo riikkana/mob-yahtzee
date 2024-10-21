@@ -194,7 +194,7 @@ export default Gameboard = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.homescreen}>
       <PaperProvider>
         <Header />
         <View style={styles.container}>
@@ -207,7 +207,8 @@ export default Gameboard = ({ navigation, route }) => {
               <Button icon="dice-multiple" mode="contained" onPress={throwDices}>
                 THROW DICE
               </Button>
-              <Text style={styles.textStatus}>Throws left: {nbrOfThrowsLeft}</Text>
+              <Text style={styles.throwsLeft}>Throws left: {nbrOfThrowsLeft}</Text>
+              <Text style={styles.throwsLeft}>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
             </>
           )}
           <Container>
@@ -216,12 +217,12 @@ export default Gameboard = ({ navigation, route }) => {
           <Container>
             <Row style={styles.row}>{pointsToSelectRow}</Row>
           </Container>
-          <Text>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
-          <Text>Player name: {playerName}</Text>
-          <Text>Total points: {calculateTotalScore()}</Text>
+          
+          <Text style={styles.playerName}>Player name: {playerName}</Text>
+          <Text style={styles.playerName}>Total points: {calculateTotalScore()}</Text>
           {gameOver && (
             <>
-              <Text style={styles.textStatus}>Total points: {totalScore}!</Text>
+              <Text style={styles.totalPoints}>You're total score is {totalScore}!</Text>
               {!isScoreSaved ? (
                 <Button icon="content-save" mode="contained" onPress={saveToScoreboard}>
                   Save to Scoreboard

@@ -73,19 +73,19 @@ const Scoreboard = ({ navigation, route }) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeArea}>
       <Header />
       <View style={styles.container}>
-        <Text>Scoreboard:</Text>
-        <DataTable>
-          <DataTable.Header>
+        <Text style={styles.title}>Scoreboard</Text>
+        <DataTable >
+          <DataTable.Header style={styles.headerCell}>
             <DataTable.Title>#</DataTable.Title>
             <DataTable.Title>Player</DataTable.Title>
             <DataTable.Title>Points</DataTable.Title>
           </DataTable.Header>
 
           {scores.map((item, index) => (
-            <DataTable.Row key={item.key}>
+            <DataTable.Row style={styles.cell} key={item.key}>
               <DataTable.Cell>{index + 1}</DataTable.Cell>
               <DataTable.Cell>{item.player}</DataTable.Cell>
               <DataTable.Cell>{item.score}</DataTable.Cell>
