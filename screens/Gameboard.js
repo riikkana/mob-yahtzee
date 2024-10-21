@@ -23,7 +23,7 @@ let board = [];
 export default Gameboard = ({ navigation, route }) => {
   const [currentRound, setCurrentRound] = useState(1);
   const [nbrOfThrowsLeft, setNbrOfThrowsLeft] = useState(NBR_OF_THROWS);
-  const [status, setStatus] = useState('Throw dice');
+  const [status, setStatus] = useState("Throw " + NBR_OF_THROWS + " times before setting points.");
   //const [gameEndStatus, setGameEndStatus] = useState(false);
   const [isPointsSelected, setIsPointsSelected] = useState(false);
   const [gameOver, setGameOver] = useState(false);
@@ -130,7 +130,8 @@ export default Gameboard = ({ navigation, route }) => {
         } else {
           const finalTotalScore = points.reduce((acc, score) => acc + score, 0);
           setTotalScore(finalTotalScore);
-          setGameOver(true); 
+          setGameOver(true);
+          setStatus('');
         }
       } else {
         setStatus("You already selected points for " + (i + 1));
@@ -204,41 +205,54 @@ export default Gameboard = ({ navigation, route }) => {
           <Text style={styles.textStatus}>{status}</Text>
           {!gameOver && (
             <>
-              <Button icon="dice-multiple" mode="contained" onPress={throwDices}>
+              <Button
+                style={styles.playButton}
+                icon="dice-multiple"
+                mode="contained"
+                onPress={throwDices}>
                 THROW DICE
               </Button>
-              <Text style={styles.throwsLeft}>Throws left: {nbrOfThrowsLeft}</Text>
-              <Text style={styles.throwsLeft}>Current Round: {currentRound}/{MAX_ROUNDS}</Text>
+              <Text style={styles.throwsLeft}>{nbrOfThrowsLeft} throws left, current round: {currentRound}/{MAX_ROUNDS}</Text>
             </>
           )}
-          <Container>
-            <Row style={styles.pointsRow}>{pointsRow}</Row>
-          </Container>
-          <Container>
-            <Row style={styles.row}>{pointsToSelectRow}</Row>
-          </Container>
-          
-          <Text style={styles.playerName}>Player name: {playerName}</Text>
-          <Text style={styles.playerName}>Total points: {calculateTotalScore()}</Text>
           {gameOver && (
             <>
               <Text style={styles.totalPoints}>You're total score is {totalScore}!</Text>
               {!isScoreSaved ? (
-                <Button icon="content-save" mode="contained" onPress={saveToScoreboard}>
+                <Button 
+                  style={styles.playButton}
+                  icon="content-save" 
+                  mode="contained" 
+                  onPress={saveToScoreboard}>
                   Save to Scoreboard
                 </Button>
               ) : (
                 <>
                   <Text style={styles.textStatus}>Score saved!</Text>
-                  <Button icon="restart" mode="contained" onPress={startNewGame}>
+                  <Button 
+                    style={styles.playButton}
+                    icon="restart" 
+                    mode="contained" 
+                    onPress={startNewGame}>
                     Start New Game
                   </Button>
                 </>
               )}
             </>
           )}
+
+          <Container>
+            <Row style={styles.pointsRow}>{pointsRow}</Row>
+          </Container>
+          <Container>
+            <Row style={styles.row}>{pointsToSelectRow}</Row>
+          </Container>
+
+          
+          <Text style={styles.playerName}>Total points: {calculateTotalScore()}</Text>
+          <Text style={styles.playerName}>Player name: {playerName}</Text>
+
         </View>
-        <Footer />
       </PaperProvider>
     </SafeAreaView>
   )
