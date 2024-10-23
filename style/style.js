@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { horizontalScale, moderateScale, verticalScale } from '../style/Metrics';
+
 
 export default StyleSheet.create({
   homescreen: {
@@ -10,27 +12,28 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    padding: horizontalScale(10),
     fontFamily: 'Ubuntu', 
   },
   header: {
-    paddingTop: 30,
-    marginBottom: 15,
+    paddingTop: verticalScale(30),
+    marginBottom: verticalScale(15),
     backgroundColor: '#af53bd',
     flexDirection: 'row',
     justifyContent: 'center', 
     alignItems: 'center', 
-    fontFamily: 'Ubuntu', 
-    fontSize: 28,
+    fontFamily: 'Ubuntu',
+    color: 'white', 
+    fontSize: moderateScale(28),
   },
   iconContainer: {
     justifyContent: 'center', 
     alignItems: 'center', 
-    marginBottom: 20, 
+    marginBottom: verticalScale(20),  
   },
   footer: {
     marginTop: 'auto',
-    margin: 10,
+    margin: horizontalScale(10),
     backgroundColor: 'transparent',
     flexDirection: 'row',
     justifyContent: 'center', 
@@ -38,36 +41,36 @@ export default StyleSheet.create({
     fontFamily: 'Ubuntu' 
   },
   title: {
-    fontSize: 24,
+    fontSize: moderateScale(20),
     margin: 0,
-    marginBottom: 30,
+    marginBottom: verticalScale(30),
     textAlign: 'center',
     fontFamily: 'Ubuntu', 
   },
   goodLuck: {
-    fontSize: 18,
-    marginTop: 10,
-    marginBottom: 10,
+    fontSize: moderateScale(18), 
+    marginTop: verticalScale(10), 
+    marginBottom: verticalScale(10), 
     textAlign: 'center',
     fontFamily: 'Ubuntu', 
   },
   textInput: {
-    height: 50,
+    height: verticalScale(50), 
     width: '80%',
-    marginBottom: 20,
+    marginBottom: verticalScale(20), 
     alignSelf: 'center',
   },
   rules: {
-    fontSize: 14,
-    marginBottom: 10,
+    fontSize: moderateScale(14), 
+    marginBottom: verticalScale(10), 
     textAlign: 'center',
-    lineHeight: 20,
+    lineHeight: verticalScale(20),
   },
   playButton: {
     width: '80%',
     alignSelf: 'center',
-    paddingVertical: 5,
-    marginBottom: 5,
+    paddingVertical: verticalScale(5), 
+    marginBottom: verticalScale(5), 
   },
   container: {
     flex: 1, 
@@ -76,60 +79,47 @@ export default StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   row: {
-    marginBottom: 15,
-    padding: 10
+    marginBottom: verticalScale(15), 
+    padding: horizontalScale(10),
   },
   pointsRow: {
     fontWeight: 'bold',
-    paddingTop: 20,
+    paddingTop: verticalScale(20),
     fontFamily: 'Ubuntu', 
   },
-  flex: {
-    flexDirection: "row"
-  },
   textStatus: {
-    fontSize: 16,
-    padding: 10,
-    margin: 10,
+    fontSize: moderateScale(16), 
+    padding: horizontalScale(5), 
+    margin: horizontalScale(10), 
     fontFamily: 'Ubuntu', 
   },
   throwsLeft: {
     padding: 0,
-    marginBottom: 20,
+    marginBottom: verticalScale(20), 
     fontStyle: 'italic',
-    fontSize: 16,
+    fontSize: moderateScale(16), 
   },
   playerName: {
-    fontSize: 18,
+    fontSize: moderateScale(18),
     fontFamily: 'Ubuntu', 
   },
   totalPoints: {
-    fontSize: 24,
+    fontSize: moderateScale(24), 
     fontWeight: 'bold',
-    paddingTop: 30,
-    paddingBottom: 5,
-  },
-  safeArea: {
-    flex: 1,
-    //backgroundColor: '#f5f5f5',
-  },
-  container: {
-    flex: 1,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-
+    padding: verticalScale(10), 
+    //paddingTop: verticalScale(30), 
+    //paddingBottom: verticalScale(5), 
   },
   headerCell: {
-    backgroundColor: '#dfd4e1', // Voit vaihtaa väriä halutessasi
+    backgroundColor: '#dfd4e1',
     color: '#fff',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: moderateScale(16), 
   },
   cell: {
     textAlign: 'center',
-    paddingVertical: 5,
-    fontSize: 16,
+    paddingVertical: verticalScale(5),
+    fontSize: moderateScale(16), 
     fontFamily: 'Ubuntu', 
   },
   clearButton: {

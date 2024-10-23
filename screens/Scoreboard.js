@@ -6,6 +6,8 @@ import styles from '../style/style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DataTable, PaperProvider, Button, DefaultTheme } from "react-native-paper";
 import { useFocusEffect } from '@react-navigation/native';
+import { horizontalScale, moderateScale, verticalScale } from '../style/Metrics';
+
 
 const theme = {
     ...DefaultTheme,
@@ -88,7 +90,7 @@ const Scoreboard = ({ navigation, route }) => {
                 <Header />
                 
                 <View style={styles.container}>
-                    <Text style={styles.title}>Scoreboard</Text>
+                    <Text style={styles.title}>Hall of Fame</Text>
                     {<DataTable >
                         <DataTable.Header style={styles.headerCell}>
                             <DataTable.Title>#</DataTable.Title>

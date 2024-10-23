@@ -14,6 +14,8 @@ import {
 } from "../constants/Game";
 import styles from '../style/style';
 import { useFonts } from 'expo-font';
+import { horizontalScale, moderateScale, verticalScale } from '../style/Metrics';
+
 
 const theme = {
     ...DefaultTheme,

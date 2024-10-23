@@ -7,6 +7,8 @@ import Footer from "./Footer";
 import styles from '../style/style';
 import { Container, Row, Col } from "react-native-flex-grid";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { horizontalScale, moderateScale, verticalScale } from '../style/Metrics';
+
 import {
   NBR_OF_DICE,
   NBR_OF_THROWS,
