@@ -55,7 +55,7 @@ const Home = ({ navigation }) => {
                         <>
                             <MaterialCommunityIcons
                                 name="human-greeting"
-                                size={90}
+                                size={80}
                                 color="#511e74"/>
                             <Text style={styles.title}>
                                 Welcome to the Mini-Yahtzee Game!
@@ -116,10 +116,10 @@ const Home = ({ navigation }) => {
                                 mode="contained"
                                 onPress={() => navigation.navigate('Gameboard', { player: playerName })}>
                                 PLAY</Button>
+                                <Footer />
                         </>
                     }
                 </View>
-                <Footer />
             </PaperProvider>
         </SafeAreaView >
     );
