@@ -5,13 +5,23 @@ import Scoreboard from './screens/Scoreboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { PaperProvider, DefaultTheme } from 'react-native-paper';
 import { useFonts } from 'expo-font';
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#511e74',
+  },
+};
 
 const Tab = createBottomTabNavigator();
 
 export default App = () => {
   return (
-    <NavigationContainer>
+    <PaperProvider theme={theme}>
+      <NavigationContainer>
       <Tab.Navigator
       sceneContainerStyle={{backgroundColor: 'transparent'}}
         screenOptions={({ route }) => ({
@@ -47,5 +57,6 @@ export default App = () => {
           options={{headerShown: false}} />
       </Tab.Navigator>
     </NavigationContainer>
+    </PaperProvider>
   );
 }

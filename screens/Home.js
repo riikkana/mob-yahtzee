@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Text, View, Pressable, Keyboard, SafeAreaView } from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Button, PaperProvider, TextInput } from "react-native-paper";
+import { Button, PaperProvider, TextInput, DefaultTheme } from "react-native-paper";
 import Header from "./Header";
 import Footer from "./Footer";
 import {
@@ -15,6 +15,13 @@ import {
 import styles from '../style/style';
 import { useFonts } from 'expo-font';
 
+const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#511e74',
+    },
+  };
 
 const Home = ({ navigation }) => {
 
@@ -39,7 +46,7 @@ const Home = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.homescreen}>
-            <PaperProvider>
+            <PaperProvider theme={theme}>
                 <Header />
                 <View style={styles.content}>
                     {!hasPlayername ?

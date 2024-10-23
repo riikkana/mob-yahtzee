@@ -46,8 +46,8 @@ export default StyleSheet.create({
   },
   goodLuck: {
     fontSize: 18,
-    marginTop: 30,
-    marginBottom: 15,
+    marginTop: 10,
+    marginBottom: 10,
     textAlign: 'center',
     fontFamily: 'Ubuntu', 
   },
@@ -59,9 +59,9 @@ export default StyleSheet.create({
   },
   rules: {
     fontSize: 14,
-    marginBottom: 15,
+    marginBottom: 10,
     textAlign: 'center',
-    lineHeight: 20
+    lineHeight: 20,
   },
   playButton: {
     width: '80%',

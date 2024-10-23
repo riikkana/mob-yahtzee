@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Text, View, Pressable, SafeAreaView } from "react-native";
-import { PaperProvider } from "react-native-paper";
+import { PaperProvider, DefaultTheme } from "react-native-paper";
 import { Button } from "react-native-paper";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -15,6 +15,14 @@ import {
   BONUS_POINTS,
   BONUS_POINTS_LIMIT
 } from "../constants/Game";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#511e74',
+  },
+};
 
 const MAX_ROUNDS = 6;
 let board = [];
@@ -196,7 +204,7 @@ export default Gameboard = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.homescreen}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <Header />
         <View style={styles.container}>
           <Container>

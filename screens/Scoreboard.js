@@ -4,8 +4,16 @@ import Header from "./Header";
 import Footer from "./Footer";
 import styles from '../style/style';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DataTable, PaperProvider, Button } from "react-native-paper";
+import { DataTable, PaperProvider, Button, DefaultTheme } from "react-native-paper";
 import { useFocusEffect } from '@react-navigation/native';
+
+const theme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      primary: '#511e74',
+    },
+  };
 
 const STORAGE_KEY = '@score_key';
 
@@ -76,7 +84,7 @@ const Scoreboard = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.homescreen}>
-            <PaperProvider>
+            <PaperProvider theme={theme}>
                 <Header />
                 
                 <View style={styles.container}>
